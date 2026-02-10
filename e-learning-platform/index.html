@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnHub | E-Learning Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="assets/icons/play.svg">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                LearnHub
+            </a>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="pages/courses.html" class="nav-link">Courses</a>
+                <a href="pages/dashboard.html" class="nav-link">Dashboard</a>
+                <a href="pages/video-player.html?course=1" class="nav-link">Video Player</a>
+                <a href="#" class="nav-link">About</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search courses...">
+                </div>
+                <button class="btn-login">Sign In</button>
+                <button class="btn-primary">Sign Up Free</button>
+            </div>
+            
+            <button class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Learn Without Limits</h1>
+            <p class="hero-subtitle">Master new skills with interactive video lessons from industry experts</p>
+            
+            <!-- Working Video in Hero -->
+            <div class="hero-video-container">
+                <div class="video-wrapper">
+                    <video id="heroVideo" class="video-player" poster="https://images.unsplash.com/photo-1516321318423-f06f85e504b3">
+                        <source src="assets/videos/intro.mp4" type="video/mp4">
+                        Your browser does not support HTML5 video.
+                    </video>
+                    <div class="video-controls">
+                        <button class="control-btn" onclick="togglePlayPause('heroVideo')">
+                            <i class="fas fa-play" id="heroPlayIcon"></i>
+                        </button>
+                        <div class="progress-bar" onclick="seekVideo('heroVideo', event)">
+                            <div class="progress-fill" id="heroProgress"></div>
+                        </div>
+                        <button class="control-btn" onclick="toggleMute('heroVideo')">
+                            <i class="fas fa-volume-up" id="heroVolumeIcon"></i>
+                        </button>
+                        <button class="control-btn" onclick="toggleFullscreen('heroVideo')">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h3>Welcome to LearnHub</h3>
+                    <p>Watch this quick introduction to see how our platform works</p>
+                    <div class="video-stats">
+                        <span><i class="fas fa-clock"></i> 2:30</span>
+                        <span><i class="fas fa-eye"></i> Auto-play</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-actions">
+                <button class="cta-button" onclick="window.location.href='pages/courses.html'">
+                    <i class="fas fa-rocket"></i> Explore Courses
+                </button>
+                <button class="btn-secondary" onclick="openVideoModal('heroVideo')">
+                    <i class="fas fa-play-circle"></i> Watch Full Intro
+                </button>
+            </div>
+        </div>
+        
+        <div class="hero-wave">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Featured Courses -->
+    <section class="featured-courses">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Featured Courses</h2>
+                <p class="section-subtitle">Learn with interactive video lessons</p>
+            </div>
+            
+            <div class="courses-grid">
+                <!-- Course 1 with Video -->
+                <div class="course-card">
+                    <div class="course-video-preview">
+                        <video class="course-video" poster="https://images.unsplash.com/photo-1627398242454-45a1465c2479">
+                            <source src="assets/videos/lesson1.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-overlay" onclick="playCourseVideo(this)">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="video-duration">12:30</div>
+                    </div>
+                    <div class="course-content">
+                        <span class="course-category">Web Development</span>
+                        <h3 class="course-title">JavaScript Fundamentals</h3>
+                        <p class="course-description">Master JavaScript from scratch with hands-on video lessons</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-video"></i> 48 lessons</span>
+                            <span><i class="fas fa-clock"></i> 12h 30m</span>
+                        </div>
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span>4.8 (2.5k)</span>
+                        </div>
+                        <button class="btn-course" onclick="window.location.href='pages/video-player.html?course=1'">
+                            <i class="fas fa-play"></i> Start Learning
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Course 2 with Video -->
+                <div class="course-card">
+                    <div class="course-video-preview">
+                        <video class="course-video" poster="https://images.unsplash.com/photo-1633356122544-f134324a6cee">
+                            <source src="assets/videos/lesson2.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-overlay" onclick="playCourseVideo(this)">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="video-duration">15:45</div>
+                    </div>
+                    <div class="course-content">
+                        <span class="course-category">React</span>
+                        <h3 class="course-title">React Masterclass</h3>
+                        <p class="course-description">Build modern web applications with React and Redux</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-video"></i> 36 lessons</span>
+                            <span><i class="fas fa-clock"></i> 15h 45m</span>
+                        </div>
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>5.0 (1.8k)</span>
+                        </div>
+                        <button class="btn-course" onclick="window.location.href='pages/video-player.html?course=2'">
+                            <i class="fas fa-play"></i> Start Learning
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Course 3 with Video -->
+                <div class="course-card">
+                    <div class="course-video-preview">
+                        <video class="course-video" poster="https://images.unsplash.com/photo-1561070791-2526d30994b5">
+                            <source src="assets/videos/lesson3.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-overlay" onclick="playCourseVideo(this)">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="video-duration">10:20</div>
+                    </div>
+                    <div class="course-content">
+                        <span class="course-category">UI/UX Design</span>
+                        <h3 class="course-title">Figma Design Course</h3>
+                        <p class="course-description">Learn professional UI/UX design with Figma</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-video"></i> 24 lessons</span>
+                            <span><i class="fas fa-clock"></i> 10h 20m</span>
+                        </div>
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>4.9 (3.2k)</span>
+                        </div>
+                        <button class="btn-course" onclick="window.location.href='pages/video-player.html?course=3'">
+                            <i class="fas fa-play"></i> Start Learning
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video Demo Section -->
+            <div class="video-demo-section">
+                <div class="demo-content">
+                    <div class="demo-info">
+                        <h3>Experience Interactive Learning</h3>
+                        <p>Watch how our video lessons transform complex topics into easy-to-understand content</p>
+                        <ul class="demo-features">
+                            <li><i class="fas fa-check-circle"></i> HD Video Quality</li>
+                            <li><i class="fas fa-check-circle"></i> Interactive Exercises</li>
+                            <li><i class="fas fa-check-circle"></i> Downloadable Resources</li>
+                            <li><i class="fas fa-check-circle"></i> Progress Tracking</li>
+                        </ul>
+                        <button class="btn-primary" onclick="openVideoDemo()">
+                            <i class="fas fa-play"></i> Watch Platform Demo
+                        </button>
+                    </div>
+                    <div class="demo-video">
+                        <div class="demo-player">
+                            <video id="demoVideo" poster="https://images.unsplash.com/photo-1555949963-aa79dcee981c">
+                                <source src="assets/videos/demo.mp4" type="video/mp4">
+                            </video>
+                            <div class="demo-controls">
+                                <button class="control-btn" onclick="togglePlayPause('demoVideo')">
+                                    <i class="fas fa-play" id="demoPlayIcon"></i>
+                                </button>
+                                <div class="video-time" id="demoTime">0:00 / 3:45</div>
+                                <button class="control-btn" onclick="toggleFullscreen('demoVideo')">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeVideoModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-video-container">
+                <video id="modalVideo" controls>
+                    <source src="assets/videos/intro.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-play hero video
+            const heroVideo = document.getElementById('heroVideo');
+            if (heroVideo) {
+                heroVideo.play().catch(e => console.log("Autoplay prevented:", e));
+            }
+            
+            // Initialize video progress tracking
+            initializeVideoProgress('heroVideo', 'heroProgress');
+            initializeVideoProgress('demoVideo');
+            
+            // Hide loading spinner
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+            }, 1000);
+        });
+        
+        function openVideoDemo() {
+            const demoVideo = document.getElementById('demoVideo');
+            demoVideo.play();
+            document.querySelector('.demo-player').classList.add('playing');
+        }
+        
+        function playCourseVideo(element) {
+            const video = element.parentElement.querySelector('.course-video');
+            video.play();
+            element.style.opacity = '0';
+            
+            video.onended = function() {
+                element.style.opacity = '1';
+            };
+        }
+    </script>
+</body>
+</html>
