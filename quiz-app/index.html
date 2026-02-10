@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ QUIZ CHALLENGE PRO</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Particles -->
+    <div class="background-particles"></div>
+    
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </div>
+
+    <div class="container">
+        <!-- START SCREEN -->
+        <div class="screen start-screen active" id="startScreen">
+            <div class="hero-content">
+                <div class="logo-container">
+                    <div class="logo-circle">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h1 class="logo-text">
+                        QUIZ<span class="logo-accent">CHALLENGE</span>
+                    </h1>
+                    <p class="logo-subtitle">Test Your Limits. Defeat The Clock.</p>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-question-circle"></i>
+                        <span id="totalQuestionsCount">25</span>
+                        <p>Questions</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-trophy"></i>
+                        <span id="highScore">0</span>
+                        <p>High Score</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-bolt"></i>
+                        <span>30s</span>
+                        <p>Per Question</p>
+                    </div>
+                </div>
+
+                <div class="cta-section">
+                    <button class="btn-start" id="startBtn">
+                        <span class="btn-sparkle">
+                            <i class="fas fa-play"></i>
+                        </span>
+                        <span class="btn-text">BEGIN CHALLENGE</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                    
+                    <button class="btn-admin" id="adminToggle">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>QUESTIONS EDITOR</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ SCREEN -->
+        <div class="screen quiz-screen" id="quizScreen">
+            <div class="quiz-header">
+                <div class="header-top">
+                    <div class="challenge-meter">
+                        <div class="meter-label">
+                            <i class="fas fa-fire"></i>
+                            <span>CHALLENGE PROGRESS</span>
+                        </div>
+                        <div class="meter-bar">
+                            <div class="meter-fill" id="progressFill"></div>
+                        </div>
+                        <div class="meter-text" id="questionCounter">
+                            <span id="currentQ">1</span>/<span id="totalQ">10</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-display">
+                        <div class="stat-badge score-badge">
+                            <i class="fas fa-star"></i>
+                            <span>SCORE: </span>
+                            <strong id="currentScore">0</strong>
+                        </div>
+                        <div class="stat-badge timer-badge" id="timerBadge">
+                            <i class="fas fa-clock"></i>
+                            <span>TIME: </span>
+                            <strong id="timer">30</strong>
+                            <span>s</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-content">
+                <div class="question-display">
+                    <div class="question-header">
+                        <div class="difficulty-tag">
+                            <i class="fas fa-bolt"></i>
+                            <span>CHALLENGE #<span id="challengeNumber">1</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="question-card">
+                        <div class="question-text" id="questionText">
+                            Loading your challenge...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="options-container">
+                    <div class="options-grid" id="optionsGrid">
+                        <!-- Options will be injected here -->
+                    </div>
+                </div>
+
+                <div class="feedback-section">
+                    <div class="feedback-card" id="feedbackCard">
+                        <div class="feedback-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="feedback-text" id="feedbackText">
+                            Select your answer. Choose wisely!
+                        </div>
+                    </div>
+                    
+                    <div class="action-center">
+                        <button class="btn-next-challenge" id="nextBtn">
+                            <div class="next-content">
+                                <div class="next-icon">
+                                    <i class="fas fa-forward"></i>
+                                </div>
+                                <div class="next-text">
+                                    <span class="next-label">ACCEPT NEXT</span>
+                                    <span class="next-challenge">CHALLENGE</span>
+                                </div>
+                                <div class="next-arrow">
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
+                            </div>
+                            <div class="next-glow"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTS SCREEN -->
+        <div class="screen result-screen" id="resultScreen">
+            <div class="result-container">
+                <div class="celebration">
+                    <div class="confetti-container"></div>
+                    <div class="trophy-display">
+                        <div class="trophy-circle">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="trophy-rays">
+                            <div class="ray"></div>
+                            <div class="ray"></div>
+                            <div class="ray"></div>
+                            <div class="ray"></div>
+                            <div class="ray"></div>
+                            <div class="ray"></div>
+                            <div class="ray"></div>
+                            <div class="ray"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-header">
+                    <h2>MISSION ACCOMPLISHED!</h2>
+                    <p class="result-subtitle">You've conquered the challenge!</p>
+                </div>
+
+                <div class="score-display">
+                    <div class="score-circle">
+                        <svg class="progress-ring" width="220" height="220">
+                            <circle class="progress-ring-bg" cx="110" cy="110" r="100" fill="transparent"/>
+                            <circle class="progress-ring-fill" cx="110" cy="110" r="100" fill="transparent"
+                                    stroke-width="10" stroke-linecap="round"/>
+                        </svg>
+                        <div class="score-value">
+                            <span id="finalScore">0</span>
+                            <span class="score-percent">%</span>
+                        </div>
+                    </div>
+
+                    <div class="score-details">
+                        <div class="detail-card correct-card">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="detail-content">
+                                <span class="detail-label">CORRECT</span>
+                                <span class="detail-value" id="correctCount">0</span>
+                            </div>
+                        </div>
+                        <div class="detail-card wrong-card">
+                            <i class="fas fa-times-circle"></i>
+                            <div class="detail-content">
+                                <span class="detail-label">INCORRECT</span>
+                                <span class="detail-value" id="incorrectCount">0</span>
+                            </div>
+                        </div>
+                        <div class="detail-card time-card">
+                            <i class="fas fa-bolt"></i>
+                            <div class="detail-content">
+                                <span class="detail-label">TIME BONUS</span>
+                                <span class="detail-value" id="timeBonus">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-message">
+                    <div class="message-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <p class="message-text" id="resultMessage">
+                        Calculating your performance...
+                    </p>
+                </div>
+
+                <div class="result-actions">
+                    <button class="btn-play-again" id="restartBtn">
+                        <i class="fas fa-redo"></i>
+                        <span>TAKE ANOTHER CHALLENGE</span>
+                    </button>
+                    <button class="btn-share" id="shareBtn">
+                        <i class="fas fa-share-alt"></i>
+                        <span>SHARE VICTORY</span>
+                    </button>
+                    <button class="btn-home" id="homeBtn">
+                        <i class="fas fa-home"></i>
+                        <span>HOME BASE</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN PANEL -->
+        <div class="screen admin-screen" id="adminScreen">
+            <div class="admin-container">
+                <div class="admin-header">
+                    <div class="admin-title">
+                        <i class="fas fa-terminal"></i>
+                        <h2>QUESTIONS COMMAND CENTER</h2>
+                    </div>
+                    <button class="btn-close-admin" id="closeAdmin">
+                        <i class="fas fa-times"></i>
+                        <span>CLOSE</span>
+                    </button>
+                </div>
+
+                <div class="admin-content">
+                    <div class="admin-section add-section">
+                        <div class="section-header">
+                            <i class="fas fa-plus-circle"></i>
+                            <h3>CREATE NEW CHALLENGE</h3>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="newQuestion">
+                                <i class="fas fa-question"></i>
+                                CHALLENGE QUESTION
+                            </label>
+                            <textarea id="newQuestion" 
+                                      placeholder="Enter your challenging question here..." 
+                                      class="form-input"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-list-ol"></i>
+                                CHALLENGE OPTIONS (Minimum 2, Maximum 6)
+                            </label>
+                            <div class="options-inputs" id="optionsInputs">
+                                <!-- Options will be added here -->
+                            </div>
+                            <button class="btn-add-option" id="addOptionBtn">
+                                <i class="fas fa-plus"></i>
+                                ADD OPTION
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="correctAnswer">
+                                <i class="fas fa-check-circle"></i>
+                                CORRECT ANSWER
+                            </label>
+                            <select id="correctAnswer" class="form-select">
+                                <option value="">Select the correct option</option>
+                            </select>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn-save-question" id="saveQuestionBtn">
+                                <i class="fas fa-save"></i>
+                                SAVE CHALLENGE
+                            </button>
+                            <button class="btn-clear-form" id="clearFormBtn">
+                                <i class="fas fa-broom"></i>
+                                CLEAR FORM
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="admin-section manage-section">
+                        <div class="section-header">
+                            <i class="fas fa-tasks"></i>
+                            <h3>CHALLENGES ARSENAL</h3>
+                        </div>
+                        
+                        <div class="questions-stats">
+                            <div class="stat-info">
+                                <i class="fas fa-database"></i>
+                                <span>Total Challenges: <strong id="totalChallenges">0</strong></span>
+                            </div>
+                            <div class="stat-info">
+                                <i class="fas fa-layer-group"></i>
+                                <span>Storage: <strong id="storageUsed">0%</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="questions-list" id="questionsList">
+                            <!-- Questions will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="correctSound" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" preload="auto"></audio>
+    <audio id="wrongSound" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" preload="auto"></audio>
+    <audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" preload="auto"></audio>
+
+    <script src="script.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
