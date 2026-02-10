@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Courses | LearnHub</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                LearnHub
+            </a>
+            
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="courses.html" class="nav-link active">Courses</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="video-player.html" class="nav-link">Video Player</a>
+                <a href="#" class="nav-link">Categories</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search courses..." id="searchInput">
+                </div>
+                <button class="btn-login">Sign In</button>
+            </div>
+            
+            <button class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Loading -->
+    <div class="loading-spinner" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Courses Page -->
+    <div class="courses-page">
+        <!-- Hero Section -->
+        <section class="courses-hero">
+            <div class="container">
+                <h1>Explore Our Courses</h1>
+                <p>Browse 5000+ courses across all categories and skill levels</p>
+                
+                <!-- Search Bar -->
+                <div class="courses-search">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search courses, instructors, or topics..." id="mainSearch">
+                        <button class="btn-primary" onclick="searchCourses()">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                    <div class="search-filters">
+                        <span>Popular:</span>
+                        <button class="filter-tag" onclick="filterByTag('javascript')">JavaScript</button>
+                        <button class="filter-tag" onclick="filterByTag('react')">React</button>
+                        <button class="filter-tag" onclick="filterByTag('python')">Python</button>
+                        <button class="filter-tag" onclick="filterByTag('web-development')">Web Dev</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters Section -->
+        <section class="filters-section">
+            <div class="container">
+                <div class="filters-container">
+                    <!-- Category Filter -->
+                    <div class="filter-group">
+                        <h4><i class="fas fa-filter"></i> Filter By</h4>
+                        <div class="filter-options">
+                            <select id="categoryFilter" onchange="applyFilters()">
+                                <option value="">All Categories</option>
+                                <option value="web">Web Development</option>
+                                <option value="design">UI/UX Design</option>
+                                <option value="mobile">Mobile Development</option>
+                                <option value="data">Data Science</option>
+                                <option value="business">Business</option>
+                            </select>
+                            
+                            <select id="levelFilter" onchange="applyFilters()">
+                                <option value="">All Levels</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                            
+                            <select id="priceFilter" onchange="applyFilters()">
+                                <option value="">All Prices</option>
+                                <option value="free">Free</option>
+                                <option value="paid">Paid</option>
+                            </select>
+                            
+                            <select id="durationFilter" onchange="applyFilters()">
+                                <option value="">All Durations</option>
+                                <option value="short">Short (0-5 hours)</option>
+                                <option value="medium">Medium (5-20 hours)</option>
+                                <option value="long">Long (20+ hours)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Sort Options -->
+                    <div class="filter-group">
+                        <h4><i class="fas fa-sort"></i> Sort By</h4>
+                        <div class="sort-options">
+                            <button class="sort-btn active" data-sort="popular" onclick="sortCourses('popular')">
+                                Most Popular
+                            </button>
+                            <button class="sort-btn" data-sort="rating" onclick="sortCourses('rating')">
+                                Highest Rated
+                            </button>
+                            <button class="sort-btn" data-sort="newest" onclick="sortCourses('newest')">
+                                Newest
+                            </button>
+                            <button class="sort-btn" data-sort="price-low" onclick="sortCourses('price-low')">
+                                Price: Low to High
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Active Filters -->
+                <div class="active-filters" id="activeFilters">
+                    <!-- Active filters will appear here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Grid -->
+        <section class="all-courses">
+            <div class="container">
+                <div class="courses-header">
+                    <h2><span id="courseCount">24</span> Courses Found</h2>
+                    <div class="view-options">
+                        <span>View:</span>
+                        <button class="view-btn active" onclick="setViewMode('grid')">
+                            <i class="fas fa-th"></i> Grid
+                        </button>
+                        <button class="view-btn" onclick="setViewMode('list')">
+                            <i class="fas fa-list"></i> List
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="courses-container" id="coursesContainer">
+                    <!-- Courses will be loaded here dynamically -->
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination" id="pagination">
+                    <button class="page-btn" onclick="changePage(1)">1</button>
+                    <button class="page-btn active" onclick="changePage(2)">2</button>
+                    <button class="page-btn" onclick="changePage(3)">3</button>
+                    <span>...</span>
+                    <button class="page-btn" onclick="changePage(10)">10</button>
+                    <button class="next-btn" onclick="nextPage()">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Sidebar -->
+        <aside class="categories-sidebar">
+            <div class="sidebar-content">
+                <h3><i class="fas fa-folder"></i> Categories</h3>
+                <ul class="category-list" id="categoryList">
+                    <!-- Categories will be loaded dynamically -->
+                </ul>
+                
+                <div class="sidebar-section">
+                    <h4><i class="fas fa-fire"></i> Trending Now</h4>
+                    <div class="trending-courses">
+                        <div class="trending-item">
+                            <div class="trending-number">1</div>
+                            <div class="trending-info">
+                                <h5>AI & Machine Learning</h5>
+                                <p>+1200 enrolled this week</p>
+                            </div>
+                        </div>
+                        <div class="trending-item">
+                            <div class="trending-number">2</div>
+                            <div class="trending-info">
+                                <h5>Web3 Development</h5>
+                                <p>+850 enrolled this week</p>
+                            </div>
+                        </div>
+                        <div class="trending-item">
+                            <div class="trending-number">3</div>
+                            <div class="trending-info">
+                                <h5>Cloud Computing</h5>
+                                <p>+720 enrolled this week</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h4><i class="fas fa-clock"></i> Recently Viewed</h4>
+                    <div class="recent-courses">
+                        <!-- Recent courses will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeVideoModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-video-container">
+                <video id="modalVideo" controls>
+                    <source src="../assets/videos/demo.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script>
+        // Courses Data
+        const allCourses = [
+            {
+                id: 1,
+                title: "Complete JavaScript Course 2024",
+                instructor: "Alex Johnson",
+                category: "web",
+                level: "beginner",
+                price: "free",
+                duration: "15",
+                rating: 4.8,
+                students: 12500,
+                lessons: 48,
+                description: "Master JavaScript from basics to advanced concepts",
+                image: "https://images.unsplash.com/photo-1627398242454-45a1465c2479",
+                tags: ["javascript", "web", "programming"]
+            },
+            {
+                id: 2,
+                title: "React & Redux Masterclass",
+                instructor: "Sarah Miller",
+                category: "web",
+                level: "intermediate",
+                price: "paid",
+                duration: "20",
+                rating: 4.9,
+                students: 8900,
+                lessons: 36,
+                description: "Build modern web applications with React and Redux",
+                image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee",
+                tags: ["react", "redux", "frontend"]
+            },
+            {
+                id: 3,
+                title: "UI/UX Design Fundamentals",
+                instructor: "Michael Chen",
+                category: "design",
+                level: "beginner",
+                price: "free",
+                duration: "12",
+                rating: 4.7,
+                students: 15700,
+                lessons: 24,
+                description: "Learn professional UI/UX design principles",
+                image: "https://images.unsplash.com/photo-1561070791-2526d30994b5",
+                tags: ["design", "ui", "ux", "figma"]
+            },
+            {
+                id: 4,
+                title: "Python for Data Science",
+                instructor: "David Wilson",
+                category: "data",
+                level: "intermediate",
+                price: "paid",
+                duration: "25",
+                rating: 4.6,
+                students: 23400,
+                lessons: 72,
+                description: "Complete Python data science with machine learning",
+                image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
+                tags: ["python", "data-science", "ml"]
+            },
+            {
+                id: 5,
+                title: "Mobile App Development with Flutter",
+                instructor: "Emma Davis",
+                category: "mobile",
+                level: "intermediate",
+                price: "paid",
+                duration: "18",
+                rating: 4.8,
+                students: 7600,
+                lessons: 42,
+                description: "Build cross-platform mobile apps with Flutter",
+                image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c",
+                tags: ["flutter", "mobile", "dart"]
+            },
+            {
+                id: 6,
+                title: "Full Stack Web Development",
+                instructor: "Robert Brown",
+                category: "web",
+                level: "advanced",
+                price: "paid",
+                duration: "35",
+                rating: 4.9,
+                students: 11200,
+                lessons: 96,
+                description: "Become a full-stack developer with MERN stack",
+                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa",
+                tags: ["fullstack", "mern", "nodejs", "mongodb"]
+            },
+            {
+                id: 7,
+                title: "Business Analytics",
+                instructor: "Lisa Wang",
+                category: "business",
+                level: "beginner",
+                price: "free",
+                duration: "10",
+                rating: 4.5,
+                students: 8900,
+                lessons: 28,
+                description: "Learn data-driven business decision making",
+                image: "https://images.unsplash.com/photo-1556761175-b413da4baf72",
+                tags: ["business", "analytics", "excel"]
+            },
+            {
+                id: 8,
+                title: "Cloud Computing with AWS",
+                instructor: "James Wilson",
+                category: "data",
+                level: "advanced",
+                price: "paid",
+                duration: "22",
+                rating: 4.9,
+                students: 6800,
+                lessons: 54,
+                description: "Master AWS services and cloud architecture",
+                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa",
+                tags: ["aws", "cloud", "devops"]
+            }
+        ];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load courses
+            loadCourses();
+            
+            // Load categories
+            loadCategories();
+            
+            // Load recent courses
+            loadRecentCourses();
+            
+            // Hide loading spinner
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+            }, 1000);
+            
+            // Initialize search
+            const searchInput = document.getElementById('mainSearch');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        searchCourses();
+                    }
+                });
+            }
+        });
+
+        // Load courses to display
+        function loadCourses(filteredCourses = allCourses) {
+            const container = document.getElementById('coursesContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            filteredCourses.forEach(course => {
+                const courseElement = createCourseElement(course);
+                container.appendChild(courseElement);
+            });
+            
+            // Update course count
+            document.getElementById('courseCount').textContent = filteredCourses.length;
+        }
+
+        // Create course HTML element
+        function createCourseElement(course) {
+            const div = document.createElement('div');
+            div.className = 'course-item';
+            div.innerHTML = `
+                <div class="course-image">
+                    <img src="${course.image}" alt="${course.title}">
+                    <div class="course-badge ${course.price === 'free' ? 'free' : 'premium'}">
+                        ${course.price === 'free' ? 'FREE' : 'PREMIUM'}
+                    </div>
+                    <button class="preview-btn" onclick="previewCourse(${course.id})">
+                        <i class="fas fa-play"></i> Preview
+                    </button>
+                </div>
+                <div class="course-details">
+                    <div class="course-category">${getCategoryName(course.category)}</div>
+                    <h3 class="course-title">${course.title}</h3>
+                    <p class="course-description">${course.description}</p>
+                    
+                    <div class="course-meta">
+                        <span class="instructor">
+                            <i class="fas fa-user"></i> ${course.instructor}
+                        </span>
+                        <span class="rating">
+                            <i class="fas fa-star"></i> ${course.rating}
+                        </span>
+                        <span class="students">
+                            <i class="fas fa-users"></i> ${course.students.toLocaleString()}
+                        </span>
+                    </div>
+                    
+                    <div class="course-info">
+                        <div class="info-item">
+                            <i class="fas fa-layer-group"></i>
+                            <span>${course.level.charAt(0).toUpperCase() + course.level.slice(1)}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>${course.duration}h</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-video"></i>
+                            <span>${course.lessons} lessons</span>
+                        </div>
+                    </div>
+                    
+                    <div class="course-actions">
+                        <button class="btn-enroll" onclick="enrollCourse(${course.id})">
+                            ${course.price === 'free' ? 'Enroll Free' : `Enroll for $${getPrice(course)}`}
+                        </button>
+                        <button class="btn-save" onclick="saveCourse(${course.id})">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return div;
+        }
+
+        // Get category name
+        function getCategoryName(category) {
+            const categories = {
+                'web': 'Web Development',
+                'design': 'UI/UX Design',
+                'mobile': 'Mobile Development',
+                'data': 'Data Science',
+                'business': 'Business'
+            };
+            return categories[category] || category;
+        }
+
+        // Get course price
+        function getPrice(course) {
+            const prices = {
+                'beginner': 49.99,
+                'intermediate': 79.99,
+                'advanced': 99.99
+            };
+            return prices[course.level] || 59.99;
+        }
+
+        // Load categories sidebar
+        function loadCategories() {
+            const categoryList = document.getElementById('categoryList');
+            if (!categoryList) return;
+            
+            const categories = [
+                { name: 'Web Development', count: 1200, icon: 'fas fa-code' },
+                { name: 'Data Science', count: 900, icon: 'fas fa-chart-bar' },
+                { name: 'Mobile Development', count: 600, icon: 'fas fa-mobile-alt' },
+                { name: 'UI/UX Design', count: 800, icon: 'fas fa-paint-brush' },
+                { name: 'Business', count: 700, icon: 'fas fa-briefcase' },
+                { name: 'Cloud Computing', count: 500, icon: 'fas fa-cloud' },
+                { name: 'Cyber Security', count: 400, icon: 'fas fa-shield-alt' },
+                { name: 'Game Development', count: 300, icon: 'fas fa-gamepad' }
+            ];
+            
+            categoryList.innerHTML = '';
+            categories.forEach(category => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <a href="#" onclick="filterByCategory('${category.name.toLowerCase()}')">
+                        <i class="${category.icon}"></i>
+                        <span>${category.name}</span>
+                        <span class="count">${category.count}</span>
+                    </a>
+                `;
+                categoryList.appendChild(li);
+            });
+        }
+
+        // Load recently viewed courses
+        function loadRecentCourses() {
+            const recentContainer = document.querySelector('.recent-courses');
+            if (!recentContainer) return;
+            
+            const recent = allCourses.slice(0, 3);
+            recentContainer.innerHTML = '';
+            
+            recent.forEach(course => {
+                const div = document.createElement('div');
+                div.className = 'recent-item';
+                div.innerHTML = `
+                    <img src="${course.image}" alt="${course.title}">
+                    <div class="recent-info">
+                        <h5>${course.title}</h5>
+                        <p>${course.instructor}</p>
+                        <div class="recent-meta">
+                            <span><i class="fas fa-clock"></i> ${course.duration}h</span>
+                            <span><i class="fas fa-star"></i> ${course.rating}</span>
+                        </div>
+                    </div>
+                `;
+                recentContainer.appendChild(div);
+            });
+        }
+
+        // Filter functions
+        function filterByCategory(category) {
+            const select = document.getElementById('categoryFilter');
+            if (select) {
+                select.value = category;
+                applyFilters();
+            }
+        }
+
+        function filterByTag(tag) {
+            const searchInput = document.getElementById('mainSearch');
+            if (searchInput) {
+                searchInput.value = tag;
+                searchCourses();
+            }
+        }
+
+        function applyFilters() {
+            const category = document.getElementById('categoryFilter').value;
+            const level = document.getElementById('levelFilter').value;
+            const price = document.getElementById('priceFilter').value;
+            const duration = document.getElementById('durationFilter').value;
+            
+            let filtered = allCourses;
+            
+            // Apply filters
+            if (category) {
+                filtered = filtered.filter(course => course.category === category);
+            }
+            
+            if (level) {
+                filtered = filtered.filter(course => course.level === level);
+            }
+            
+            if (price) {
+                filtered = filtered.filter(course => course.price === price);
+            }
+            
+            if (duration) {
+                filtered = filtered.filter(course => {
+                    const hours = parseInt(course.duration);
+                    if (duration === 'short') return hours <= 5;
+                    if (duration === 'medium') return hours > 5 && hours <= 20;
+                    if (duration === 'long') return hours > 20;
+                    return true;
+                });
+            }
+            
+            // Update active filters display
+            updateActiveFilters(category, level, price, duration);
+            
+            // Load filtered courses
+            loadCourses(filtered);
+        }
+
+        function updateActiveFilters(category, level, price, duration) {
+            const container = document.getElementById('activeFilters');
+            container.innerHTML = '';
+            
+            const filters = [
+                { name: 'Category', value: category },
+                { name: 'Level', value: level },
+                { name: 'Price', value: price },
+                { name: 'Duration', value: duration }
+            ];
+            
+            filters.forEach(filter => {
+                if (filter.value) {
+                    const chip = document.createElement('div');
+                    chip.className = 'filter-chip';
+                    chip.innerHTML = `
+                        ${filter.name}: ${filter.value}
+                        <button onclick="removeFilter('${filter.name.toLowerCase()}')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    container.appendChild(chip);
+                }
+            });
+        }
+
+        function removeFilter(filterType) {
+            switch(filterType) {
+                case 'category':
+                    document.getElementById('categoryFilter').value = '';
+                    break;
+                case 'level':
+                    document.getElementById('levelFilter').value = '';
+                    break;
+                case 'price':
+                    document.getElementById('priceFilter').value = '';
+                    break;
+                case 'duration':
+                    document.getElementById('durationFilter').value = '';
+                    break;
+            }
+            applyFilters();
+        }
+
+        function sortCourses(method) {
+            const buttons = document.querySelectorAll('.sort-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            let sorted = [...allCourses];
+            
+            switch(method) {
+                case 'popular':
+                    sorted.sort((a, b) => b.students - a.students);
+                    break;
+                case 'rating':
+                    sorted.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'newest':
+                    sorted.sort((a, b) => b.id - a.id);
+                    break;
+                case 'price-low':
+                    sorted.sort((a, b) => getPrice(a) - getPrice(b));
+                    break;
+            }
+            
+            loadCourses(sorted);
+        }
+
+        function searchCourses() {
+            const query = document.getElementById('mainSearch').value.toLowerCase();
+            if (!query.trim()) {
+                loadCourses(allCourses);
+                return;
+            }
+            
+            const results = allCourses.filter(course => 
+                course.title.toLowerCase().includes(query) ||
+                course.description.toLowerCase().includes(query) ||
+                course.instructor.toLowerCase().includes(query) ||
+                course.tags.some(tag => tag.includes(query))
+            );
+            
+            loadCourses(results);
+        }
+
+        function setViewMode(mode) {
+            const container = document.getElementById('coursesContainer');
+            const buttons = document.querySelectorAll('.view-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            container.className = mode === 'grid' ? 'courses-container' : 'courses-container list-view';
+        }
+
+        function changePage(page) {
+            const buttons = document.querySelectorAll('.page-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // In a real app, this would load the page from server
+            console.log(`Loading page ${page}...`);
+        }
+
+        function nextPage() {
+            // Implementation for next page
+            console.log('Loading next page...');
+        }
+
+        // Course actions
+        function previewCourse(courseId) {
+            const course = allCourses.find(c => c.id === courseId);
+            if (course) {
+                // Open video modal with course preview
+                openVideoModal();
+            }
+        }
+
+        function enrollCourse(courseId) {
+            const course = allCourses.find(c => c.id === courseId);
+            if (course) {
+                if (course.price === 'free') {
+                    alert(`You have successfully enrolled in "${course.title}"!`);
+                } else {
+                    alert(`Redirecting to payment for "${course.title}"...`);
+                }
+            }
+        }
+
+        function saveCourse(courseId) {
+            const button = event.target;
+            const course = allCourses.find(c => c.id === courseId);
+            
+            if (button.classList.contains('saved')) {
+                button.innerHTML = '<i class="far fa-bookmark"></i>';
+                button.classList.remove('saved');
+                alert(`Removed "${course.title}" from saved courses`);
+            } else {
+                button.innerHTML = '<i class="fas fa-bookmark"></i>';
+                button.classList.add('saved');
+                alert(`Saved "${course.title}" to your list`);
+            }
+        }
+
+        // Video modal functions
+        function openVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+            
+            if (modal && video) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                video.play();
+            }
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+            
+            if (modal && video) {
+                video.pause();
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
+
+    <style>
+        /* Courses Page Specific Styles */
+        .courses-page {
+            padding-top: 80px;
+        }
+        
+        /* Courses Hero */
+        .courses-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .courses-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .courses-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .courses-search {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .search-container {
+            display: flex;
+            background: white;
+            border-radius: 50px;
+            padding: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-container i {
+            padding: 0 1.5rem;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-container input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            padding: 0.5rem;
+        }
+        
+        .search-filters {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .search-filters span {
+            font-weight: 500;
+        }
+        
+        .filter-tag {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition-normal);
+        }
+        
+        .filter-tag:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Filters Section */
+        .filters-section {
+            background: white;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .filters-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-group h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-options select {
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            background: white;
+            color: var(--dark);
+            min-width: 150px;
+        }
+        
+        .sort-options {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .sort-btn {
+            padding: 0.5rem 1rem;
+            background: var(--light);
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .sort-btn:hover,
+        .sort-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .active-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            min-height: 40px;
+        }
+        
+        .filter-chip {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .filter-chip button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* All Courses */
+        .all-courses {
+            padding: 3rem 0;
+            position: relative;
+        }
+        
+        .courses-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .courses-header h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+        
+        .view-options {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .view-btn {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .view-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .courses-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .courses-container.list-view {
+            grid-template-columns: 1fr;
+        }
+        
+        .courses-container.list-view .course-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 1.5rem;
+        }
+        
+        .course-item {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition-normal);
+        }
+        
+        .course-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .course-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .course-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .course-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .course-badge.free {
+            background: #28a745;
+            color: white;
+        }
+        
+        .course-badge.premium {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .preview-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-fast);
+        }
+        
+        .preview-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        .course-details {
+            padding: 1.5rem;
+        }
+        
+        .course-category {
+            display: inline-block;
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+        
+        .course-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark);
+        }
+        
+        .course-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+        }
+        
+        .course-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .course-meta i {
+            margin-right: 0.3rem;
+        }
+        
+        .course-info {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .info-item i {
+            color: var(--primary);
+        }
+        
+        .course-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn-enroll {
+            flex: 1;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-normal);
+        }
+        
+        .btn-enroll:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-save {
+            width: 45px;
+            background: var(--light);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--radius-sm);
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .btn-save:hover,
+        .btn-save.saved {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        .page-btn {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .next-btn {
+            padding: 0.5rem 1.5rem;
+            background: var(--light);
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Categories Sidebar */
+        .categories-sidebar {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 1.5rem;
+            display: none;
+            z-index: 100;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+        }
+        
+        .sidebar-content h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .category-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .category-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-list a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1rem;
+            background: var(--light);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: var(--transition-fast);
+        }
+        
+        .category-list a:hover {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+        
+        .category-list .count {
+            margin-left: auto;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+        
+        .sidebar-section h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+        
+        .trending-courses {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .trending-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--light);
+            border-radius: 8px;
+        }
+        
+        .trending-number {
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .trending-info h5 {
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .trending-info p {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .recent-courses {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .recent-item {
+            display: flex;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: var(--light);
+            border-radius: 8px;
+            align-items: center;
+        }
+        
+        .recent-item img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .recent-info h5 {
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .recent-info p {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 0.3rem;
+        }
+        
+        .recent-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        /* Responsive Design */
+        @media (min-width: 1200px) {
+            .categories-sidebar {
+                display: block;
+            }
+            
+            .all-courses .container {
+                max-width: 1000px;
+                margin-right: 350px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .filters-container {
+                flex-direction: column;
+            }
+            
+            .courses-container {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .courses-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .search-container {
+                flex-direction: column;
+                background: transparent;
+                gap: 1rem;
+            }
+            
+            .search-container input {
+                padding: 1rem;
+                border-radius: 8px;
+            }
+            
+            .filter-options {
+                flex-direction: column;
+            }
+            
+            .courses-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .courses-container.list-view .course-item {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .courses-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .courses-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .course-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html>

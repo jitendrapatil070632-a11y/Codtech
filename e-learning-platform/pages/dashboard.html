@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | LearnHub</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                LearnHub
+            </a>
+            
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="courses.html" class="nav-link">Courses</a>
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="video-player.html" class="nav-link">Video Player</a>
+                <a href="#" class="nav-link">Profile</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="user-menu">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <div class="user-avatar large">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h3 id="userName">Welcome, Learner!</h3>
+                        <p class="user-email" id="userEmail">student@learnhub.com</p>
+                        <div class="user-level">
+                            <span class="level-badge">Intermediate</span>
+                            <div class="level-progress">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#overview" class="nav-item active" onclick="switchTab('overview')">
+                    <i class="fas fa-home"></i>
+                    <span>Overview</span>
+                </a>
+                <a href="#my-courses" class="nav-item" onclick="switchTab('my-courses')">
+                    <i class="fas fa-book"></i>
+                    <span>My Courses</span>
+                    <span class="nav-badge" id="coursesCount">8</span>
+                </a>
+                <a href="#progress" class="nav-item" onclick="switchTab('progress')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Progress</span>
+                </a>
+                <a href="#achievements" class="nav-item" onclick="switchTab('achievements')">
+                    <i class="fas fa-trophy"></i>
+                    <span>Achievements</span>
+                    <span class="nav-badge">12</span>
+                </a>
+                <a href="#certificates" class="nav-item" onclick="switchTab('certificates')">
+                    <i class="fas fa-certificate"></i>
+                    <span>Certificates</span>
+                    <span class="nav-badge">5</span>
+                </a>
+                <a href="#bookmarks" class="nav-item" onclick="switchTab('bookmarks')">
+                    <i class="fas fa-bookmark"></i>
+                    <span>Bookmarks</span>
+                </a>
+                <a href="#notes" class="nav-item" onclick="switchTab('notes')">
+                    <i class="fas fa-sticky-note"></i>
+                    <span>Notes</span>
+                </a>
+                <a href="#settings" class="nav-item" onclick="switchTab('settings')">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="streak-widget">
+                    <div class="streak-header">
+                        <i class="fas fa-fire"></i>
+                        <h4>Learning Streak</h4>
+                    </div>
+                    <div class="streak-count" id="streakCount">21 days</div>
+                    <p>Keep it up! 🔥</p>
+                    <div class="streak-calendar" id="streakCalendar">
+                        <!-- Streak calendar will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <!-- Overview Tab (Default) -->
+            <div class="dashboard-tab active" id="overview">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="enrolledCourses">8</h3>
+                            <p>Enrolled Courses</p>
+                            <span class="stat-change positive">+2 this month</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="learningHours">42</h3>
+                            <p>Learning Hours</p>
+                            <span class="stat-change positive">+12 this week</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="completionRate">65%</h3>
+                            <p>Completion Rate</p>
+                            <span class="stat-change positive">+5% this month</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="averageScore">4.8</h3>
+                            <p>Average Score</p>
+                            <span class="stat-change positive">+0.2 this month</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress Charts -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Learning Activity</h3>
+                            <select id="timeRange" onchange="updateChart()">
+                                <option value="week">Last 7 days</option>
+                                <option value="month">Last 30 days</option>
+                                <option value="quarter">Last 90 days</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Course Progress</h3>
+                            <span>Overall: 65%</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="progressChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Continue Learning -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h3>Continue Learning</h3>
+                        <a href="courses.html" class="view-all">View All</a>
+                    </div>
+                    <div class="continue-courses" id="continueCourses">
+                        <!-- Continue learning courses will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Upcoming Deadlines -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h3>Upcoming Deadlines</h3>
+                        <span class="date-info">Next 7 days</span>
+                    </div>
+                    <div class="deadlines-list" id="deadlinesList">
+                        <!-- Deadlines will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- My Courses Tab -->
+            <div class="dashboard-tab" id="my-courses">
+                <div class="tab-header">
+                    <h2>My Courses</h2>
+                    <div class="tab-actions">
+                        <button class="btn-primary" onclick="window.location.href='courses.html'">
+                            <i class="fas fa-plus"></i> Add More Courses
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="courses-filter">
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" onclick="filterMyCourses('all')">All Courses</button>
+                        <button class="filter-tab" onclick="filterMyCourses('in-progress')">In Progress</button>
+                        <button class="filter-tab" onclick="filterMyCourses('completed')">Completed</button>
+                        <button class="filter-tab" onclick="filterMyCourses('not-started')">Not Started</button>
+                    </div>
+                </div>
+                
+                <div class="my-courses-grid" id="myCoursesGrid">
+                    <!-- My courses will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Progress Tab -->
+            <div class="dashboard-tab" id="progress">
+                <div class="tab-header">
+                    <h2>Learning Progress</h2>
+                    <div class="time-selector">
+                        <button class="time-btn active">Week</button>
+                        <button class="time-btn">Month</button>
+                        <button class="time-btn">Year</button>
+                    </div>
+                </div>
+                
+                <div class="progress-stats">
+                    <div class="progress-metric">
+                        <h4>Daily Average</h4>
+                        <div class="metric-value">2.5 hours</div>
+                        <div class="metric-change positive">+0.3 hours</div>
+                    </div>
+                    <div class="progress-metric">
+                        <h4>Completion Rate</h4>
+                        <div class="metric-value">85%</div>
+                        <div class="metric-change positive">+5%</div>
+                    </div>
+                    <div class="progress-metric">
+                        <h4>Streak</h4>
+                        <div class="metric-value">21 days</div>
+                        <div class="metric-change positive">Current</div>
+                    </div>
+                    <div class="progress-metric">
+                        <h4>Total Courses</h4>
+                        <div class="metric-value">12</div>
+                        <div class="metric-change positive">+2</div>
+                    </div>
+                </div>
+                
+                <div class="progress-chart-large">
+                    <canvas id="detailedProgressChart"></canvas>
+                </div>
+                
+                <div class="skill-breakdown">
+                    <h3>Skill Breakdown</h3>
+                    <div class="skills-grid" id="skillsGrid">
+                        <!-- Skills will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Achievements Tab -->
+            <div class="dashboard-tab" id="achievements">
+                <div class="tab-header">
+                    <h2>Achievements</h2>
+                    <div class="achievement-stats">
+                        <span>Total: <strong>12</strong> achievements</span>
+                        <span>Points: <strong>1250</strong></span>
+                    </div>
+                </div>
+                
+                <div class="achievements-grid" id="achievementsGrid">
+                    <!-- Achievements will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Certificates Tab -->
+            <div class="dashboard-tab" id="certificates">
+                <div class="tab-header">
+                    <h2>My Certificates</h2>
+                    <button class="btn-primary" onclick="downloadAllCertificates()">
+                        <i class="fas fa-download"></i> Download All
+                    </button>
+                </div>
+                
+                <div class="certificates-grid" id="certificatesGrid">
+                    <!-- Certificates will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Bookmarks Tab -->
+            <div class="dashboard-tab" id="bookmarks">
+                <div class="tab-header">
+                    <h2>Bookmarks</h2>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search bookmarks..." id="bookmarkSearch">
+                    </div>
+                </div>
+                
+                <div class="bookmarks-container" id="bookmarksContainer">
+                    <!-- Bookmarks will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Notes Tab -->
+            <div class="dashboard-tab" id="notes">
+                <div class="tab-header">
+                    <h2>My Notes</h2>
+                    <button class="btn-primary" onclick="createNewNote()">
+                        <i class="fas fa-plus"></i> New Note
+                    </button>
+                </div>
+                
+                <div class="notes-container" id="notesContainer">
+                    <!-- Notes will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Settings Tab -->
+            <div class="dashboard-tab" id="settings">
+                <div class="tab-header">
+                    <h2>Settings</h2>
+                </div>
+                
+                <div class="settings-container">
+                    <div class="settings-section">
+                        <h3>Profile Settings</h3>
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" value="John Doe" id="userNameInput">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" value="john@example.com" id="userEmailInput">
+                            </div>
+                            <div class="form-group">
+                                <label>Bio</label>
+                                <textarea id="userBio">Passionate learner focused on web development and data science.</textarea>
+                            </div>
+                            <button class="btn-primary" onclick="saveProfile()">Save Changes</button>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Notification Settings</h3>
+                        <div class="settings-checkboxes">
+                            <label class="checkbox">
+                                <input type="checkbox" checked>
+                                <span>Course reminders</span>
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" checked>
+                                <span>Deadline notifications</span>
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" checked>
+                                <span>New course recommendations</span>
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox">
+                                <span>Marketing emails</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Learning Preferences</h3>
+                        <div class="settings-options">
+                            <div class="form-group">
+                                <label>Daily learning goal (hours)</label>
+                                <input type="range" min="0.5" max="5" step="0.5" value="2" id="dailyGoal">
+                                <span id="goalValue">2 hours</span>
+                            </div>
+                            <div class="form-group">
+                                <label>Preferred learning time</label>
+                                <select id="preferredTime">
+                                    <option>Morning</option>
+                                    <option selected>Afternoon</option>
+                                    <option>Evening</option>
+                                    <option>Night</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../script.js"></script>
+    <script>
+        // Dashboard Data
+        const dashboardData = {
+            user: {
+                name: "John Doe",
+                email: "john@example.com",
+                level: "Intermediate",
+                streak: 21
+            },
+            courses: [
+                {
+                    id: 1,
+                    title: "JavaScript Fundamentals",
+                    progress: 75,
+                    category: "Web Development",
+                    lastAccessed: "2 hours ago",
+                    nextLesson: "Functions and Scope",
+                    deadline: "2024-02-15"
+                },
+                {
+                    id: 2,
+                    title: "React Masterclass",
+                    progress: 30,
+                    category: "Web Development",
+                    lastAccessed: "1 day ago",
+                    nextLesson: "State Management",
+                    deadline: "2024-02-28"
+                },
+                {
+                    id: 3,
+                    title: "Python for Data Science",
+                    progress: 90,
+                    category: "Data Science",
+                    lastAccessed: "3 hours ago",
+                    nextLesson: "Pandas Library",
+                    deadline: "2024-02-10"
+                },
+                {
+                    id: 4,
+                    title: "UI/UX Design Principles",
+                    progress: 45,
+                    category: "Design",
+                    lastAccessed: "5 days ago",
+                    nextLesson: "Wireframing",
+                    deadline: "2024-03-01"
+                }
+            ],
+            achievements: [
+                {
+                    id: 1,
+                    title: "Quick Starter",
+                    description: "Complete 3 courses in 30 days",
+                    icon: "fas fa-rocket",
+                    color: "#FF6B6B",
+                    earned: true,
+                    date: "2024-01-15"
+                },
+                {
+                    id: 2,
+                    title: "Consistent Learner",
+                    description: "7-day learning streak",
+                    icon: "fas fa-fire",
+                    color: "#FFA726",
+                    earned: true,
+                    date: "2024-01-20"
+                },
+                {
+                    id: 3,
+                    title: "Perfect Score",
+                    description: "Score 100% on 5 quizzes",
+                    icon: "fas fa-star",
+                    color: "#4CAF50",
+                    earned: true,
+                    date: "2024-01-25"
+                },
+                {
+                    id: 4,
+                    title: "Night Owl",
+                    description: "Complete 10 lessons after 10 PM",
+                    icon: "fas fa-moon",
+                    color: "#2196F3",
+                    earned: false,
+                    date: null
+                }
+            ],
+            certificates: [
+                {
+                    id: 1,
+                    title: "JavaScript Fundamentals",
+                    date: "2024-01-20",
+                    course: "Advanced JavaScript Masterclass",
+                    url: "#"
+                },
+                {
+                    id: 2,
+                    title: "React Development",
+                    date: "2024-01-25",
+                    course: "React & Redux Complete Guide",
+                    url: "#"
+                }
+            ]
+        };
+
+        // Initialize Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load user data
+            loadUserData();
+            
+            // Initialize charts
+            initializeCharts();
+            
+            // Load courses
+            loadContinueCourses();
+            loadMyCourses();
+            
+            // Load achievements
+            loadAchievements();
+            
+            // Load certificates
+            loadCertificates();
+            
+            // Load bookmarks
+            loadBookmarks();
+            
+            // Load notes
+            loadNotes();
+            
+            // Load deadlines
+            loadDeadlines();
+            
+            // Load skills
+            loadSkills();
+            
+            // Initialize streak calendar
+            generateStreakCalendar();
+            
+            // Setup event listeners
+            setupEventListeners();
+        });
+
+        // Load user data
+        function loadUserData() {
+            const user = dashboardData.user;
+            document.getElementById('userName').textContent = `Welcome, ${user.name}!`;
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('streakCount').textContent = `${user.streak} days`;
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            // Activity Chart
+            const activityCtx = document.getElementById('activityChart').getContext('2d');
+            new Chart(activityCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Learning Hours',
+                        data: [2, 3, 1.5, 4, 2.5, 1, 3],
+                        borderColor: '#4361ee',
+                        backgroundColor: 'rgba(67, 97, 238, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Progress Chart
+            const progressCtx = document.getElementById('progressChart').getContext('2d');
+            new Chart(progressCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'In Progress', 'Not Started'],
+                    datasets: [{
+                        data: [45, 35, 20],
+                        backgroundColor: [
+                            '#4CAF50',
+                            '#2196F3',
+                            '#E0E0E0'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Detailed Progress Chart
+            const detailedCtx = document.getElementById('detailedProgressChart').getContext('2d');
+            new Chart(detailedCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Completed Courses',
+                        data: [2, 3, 1, 4, 2, 3],
+                        backgroundColor: '#4361ee',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Load continue learning courses
+        function loadContinueCourses() {
+            const container = document.getElementById('continueCourses');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            dashboardData.courses.slice(0, 3).forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'continue-course';
+                card.innerHTML = `
+                    <div class="course-info">
+                        <h4>${course.title}</h4>
+                        <p>${course.category} • Last accessed: ${course.lastAccessed}</p>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${course.progress}%"></div>
+                            </div>
+                            <span>${course.progress}%</span>
+                        </div>
+                    </div>
+                    <div class="course-actions">
+                        <button class="btn-primary" onclick="continueCourse(${course.id})">
+                            <i class="fas fa-play"></i> Continue
+                        </button>
+                        <button class="btn-secondary" onclick="viewCourseDetails(${course.id})">
+                            Details
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Load my courses
+        function loadMyCourses() {
+            const container = document.getElementById('myCoursesGrid');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            dashboardData.courses.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'my-course-card';
+                card.innerHTML = `
+                    <div class="course-header">
+                        <h4>${course.title}</h4>
+                        <span class="course-category">${course.category}</span>
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-info">
+                            <span>Progress: ${course.progress}%</span>
+                            <span>Next: ${course.nextLesson}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${course.progress}%"></div>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> ${course.lastAccessed}</span>
+                            <span><i class="fas fa-calendar"></i> Due: ${course.deadline}</span>
+                        </div>
+                        <div class="course-buttons">
+                            <button class="btn-primary" onclick="continueCourse(${course.id})">
+                                Continue
+                            </button>
+                            <button class="btn-secondary" onclick="viewCourseDetails(${course.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Load achievements
+        function loadAchievements() {
+            const container = document.getElementById('achievementsGrid');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            dashboardData.achievements.forEach(achievement => {
+                const card = document.createElement('div');
+                card.className = `achievement-card ${achievement.earned ? 'earned' : 'locked'}`;
+                card.innerHTML = `
+                    <div class="achievement-icon" style="background: ${achievement.color}">
+                        <i class="${achievement.icon}"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <h4>${achievement.title}</h4>
+                        <p>${achievement.description}</p>
+                        ${achievement.earned ? 
+                            `<span class="achievement-date">Earned: ${achievement.date}</span>` :
+                            '<span class="achievement-status">Locked</span>'
+                        }
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Load certificates
+        function loadCertificates() {
+            const container = document.getElementById('certificatesGrid');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            dashboardData.certificates.forEach(cert => {
+                const card = document.createElement('div');
+                card.className = 'certificate-card';
+                card.innerHTML = `
+                    <div class="certificate-header">
+                        <i class="fas fa-certificate"></i>
+                        <h4>${cert.title}</h4>
+                    </div>
+                    <div class="certificate-info">
+                        <p><strong>Course:</strong> ${cert.course}</p>
+                        <p><strong>Issued:</strong> ${cert.date}</p>
+                    </div>
+                    <div class="certificate-actions">
+                        <button class="btn-primary" onclick="viewCertificate(${cert.id})">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="btn-secondary" onclick="downloadCertificate(${cert.id})">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Load bookmarks
+        function loadBookmarks() {
+            const container = document.getElementById('bookmarksContainer');
+            if (!container) return;
+            
+            container.innerHTML = `
+                <div class="bookmark-item">
+                    <div class="bookmark-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="bookmark-info">
+                        <h4>JavaScript Closures Tutorial</h4>
+                        <p>Course: JavaScript Fundamentals • Bookmarked: 2 days ago</p>
+                    </div>
+                    <button class="bookmark-action" onclick="openBookmark(1)">
+                        <i class="fas fa-external-link-alt"></i>
+                    </button>
+                </div>
+                <div class="bookmark-item">
+                    <div class="bookmark-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div class="bookmark-info">
+                        <h4>Figma Design Systems</h4>
+                        <p>Course: UI/UX Design • Bookmarked: 1 week ago</p>
+                    </div>
+                    <button class="bookmark-action" onclick="openBookmark(2)">
+                        <i class="fas fa-external-link-alt"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        // Load notes
+        function loadNotes() {
+            const container = document.getElementById('notesContainer');
+            if (!container) return;
+            
+            container.innerHTML = `
+                <div class="note-editor">
+                    <textarea placeholder="Start typing your note here..."></textarea>
+                    <div class="editor-toolbar">
+                        <button class="btn-primary">Save Note</button>
+                        <button class="btn-secondary">Format</button>
+                    </div>
+                </div>
+                <div class="notes-list">
+                    <div class="note-item">
+                        <div class="note-header">
+                            <h4>JavaScript Functions Notes</h4>
+                            <span>2 hours ago</span>
+                        </div>
+                        <div class="note-content">
+                            <p>Functions are first-class objects in JavaScript. They can be assigned to variables, passed as arguments, and returned from other functions.</p>
+                        </div>
+                        <div class="note-actions">
+                            <button onclick="editNote(1)">Edit</button>
+                            <button onclick="deleteNote(1)">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load deadlines
+        function loadDeadlines() {
+            const container = document.getElementById('deadlinesList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            dashboardData.courses.forEach(course => {
+                const item = document.createElement('div');
+                item.className = 'deadline-item';
+                item.innerHTML = `
+                    <div class="deadline-info">
+                        <h5>${course.title}</h5>
+                        <p>${course.nextLesson}</p>
+                    </div>
+                    <div class="deadline-date">
+                        <i class="fas fa-calendar"></i>
+                        <span>${course.deadline}</span>
+                    </div>
+                    <button class="deadline-action" onclick="viewDeadline(${course.id})">
+                        View
+                    </button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Load skills
+        function loadSkills() {
+            const container = document.getElementById('skillsGrid');
+            if (!container) return;
+            
+            const skills = [
+                { name: 'JavaScript', level: 85, color: '#F0DB4F' },
+                { name: 'React', level: 70, color: '#61DAFB' },
+                { name: 'Python', level: 60, color: '#3776AB' },
+                { name: 'UI/UX Design', level: 45, color: '#F24E1E' },
+                { name: 'Data Science', level: 40, color: '#00B4D8' },
+                { name: 'Git & GitHub', level: 75, color: '#F1502F' }
+            ];
+            
+            container.innerHTML = '';
+            
+            skills.forEach(skill => {
+                const card = document.createElement('div');
+                card.className = 'skill-card';
+                card.innerHTML = `
+                    <div class="skill-header">
+                        <h4>${skill.name}</h4>
+                        <span>${skill.level}%</span>
+                    </div>
+                    <div class="skill-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${skill.level}%; background: ${skill.color}"></div>
+                        </div>
+                    </div>
+                    <div class="skill-level">
+                        <span class="level-text">${getSkillLevel(skill.level)}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function getSkillLevel(percentage) {
+            if (percentage >= 80) return 'Advanced';
+            if (percentage >= 60) return 'Intermediate';
+            if (percentage >= 40) return 'Beginner';
+            return 'Novice';
+        }
+
+        // Generate streak calendar
+        function generateStreakCalendar() {
+            const container = document.getElementById('streakCalendar');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            // Create 30 days of calendar
+            for (let i = 29; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.className = 'streak-day';
+                const hasStreak = i < dashboardData.user.streak;
+                day.innerHTML = hasStreak ? '🔥' : '○';
+                day.title = `${hasStreak ? 'Day' : 'No'} streak`;
+                container.appendChild(day);
+            }
+        }
+
+        // Switch between tabs
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.dashboard-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Activate nav item
+            event.target.classList.add('active');
+            
+            // Update page title
+            document.title = `${tabId.charAt(0).toUpperCase() + tabId.slice(1)} | LearnHub Dashboard`;
+        }
+
+        // Filter my courses
+        function filterMyCourses(filter) {
+            // Update active filter tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // In a real app, this would filter courses
+            console.log(`Filtering courses by: ${filter}`);
+        }
+
+        // Course actions
+        function continueCourse(courseId) {
+            const course = dashboardData.courses.find(c => c.id === courseId);
+            if (course) {
+                window.location.href = `video-player.html?course=${courseId}`;
+            }
+        }
+
+        function viewCourseDetails(courseId) {
+            alert(`Viewing details for course ${courseId}`);
+        }
+
+        // Certificate actions
+        function viewCertificate(certId) {
+            alert(`Viewing certificate ${certId}`);
+        }
+
+        function downloadCertificate(certId) {
+            alert(`Downloading certificate ${certId}`);
+        }
+
+        function downloadAllCertificates() {
+            alert('Downloading all certificates...');
+        }
+
+        // Bookmark actions
+        function openBookmark(bookmarkId) {
+            alert(`Opening bookmark ${bookmarkId}`);
+        }
+
+        // Note actions
+        function createNewNote() {
+            alert('Creating new note...');
+        }
+
+        function editNote(noteId) {
+            alert(`Editing note ${noteId}`);
+        }
+
+        function deleteNote(noteId) {
+            if (confirm('Are you sure you want to delete this note?')) {
+                alert(`Note ${noteId} deleted`);
+            }
+        }
+
+        // Deadline actions
+        function viewDeadline(courseId) {
+            alert(`Viewing deadline for course ${courseId}`);
+        }
+
+        // Profile actions
+        function saveProfile() {
+            alert('Profile saved successfully!');
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Daily goal slider
+            const goalSlider = document.getElementById('dailyGoal');
+            const goalValue = document.getElementById('goalValue');
+            
+            if (goalSlider && goalValue) {
+                goalSlider.addEventListener('input', function() {
+                    goalValue.textContent = `${this.value} hours`;
+                });
+            }
+            
+            // Bookmark search
+            const bookmarkSearch = document.getElementById('bookmarkSearch');
+            if (bookmarkSearch) {
+                bookmarkSearch.addEventListener('input', function() {
+                    console.log('Searching bookmarks:', this.value);
+                });
+            }
+            
+            // Mobile menu toggle
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function() {
+                    const navLinks = document.querySelector('.nav-links');
+                    if (navLinks) {
+                        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+                    }
+                });
+            }
+        }
+
+        // Update chart based on time range
+        function updateChart() {
+            const timeRange = document.getElementById('timeRange').value;
+            console.log('Updating chart for:', timeRange);
+            // In a real app, this would fetch new data and update the chart
+        }
+    </script>
+
+    <style>
+        /* Dashboard Specific Styles */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: calc(100vh - 80px);
+            margin-top: 80px;
+        }
+        
+        /* Sidebar */
+        .dashboard-sidebar {
+            background: linear-gradient(135deg, #2b2d42 0%, #1a1c2e 100%);
+            color: white;
+            padding: 2rem;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar.large {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .user-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .user-email {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .user-level {
+            width: 100%;
+        }
+        
+        .level-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .level-progress {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .nav-item.active {
+            background: rgba(67, 97, 238, 0.2);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .nav-badge {
+            margin-left: auto;
+            background: var(--secondary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+        }
+        
+        .sidebar-footer {
+            margin-top: auto;
+        }
+        
+        .streak-widget {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .streak-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .streak-count {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+            color: #ff6b6b;
+        }
+        
+        .streak-calendar {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 0.3rem;
+            margin-top: 1rem;
+        }
+        
+        .streak-day {
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        /* Main Content */
+        .dashboard-content {
+            padding: 2rem;
+            background: #f5f7fa;
+            overflow-y: auto;
+        }
+        
+        .dashboard-tab {
+            display: none;
+        }
+        
+        .dashboard-tab.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .stat-info h3 {
+            font-size: 2rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .stat-change.positive {
+            color: #4CAF50;
+        }
+        
+        .stat-change.negative {
+            color: #F44336;
+        }
+        
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chart-header h3 {
+            font-size: 1.2rem;
+        }
+        
+        .chart-header select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            background: white;
+        }
+        
+        .chart-container {
+            height: 250px;
+            position: relative;
+        }
+        
+        /* Section Cards */
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-header h3 {
+            font-size: 1.2rem;
+        }
+        
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .date-info {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Continue Courses */
+        .continue-courses {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .continue-course {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .course-info h4 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .course-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .course-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Deadlines List */
+        .deadlines-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .deadline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .deadline-info h5 {
+            margin-bottom: 0.3rem;
+        }
+        
+        .deadline-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .deadline-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+        }
+        
+        .deadline-action {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .deadline-action:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Tab Headers */
+        .tab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .tab-header h2 {
+            font-size: 2rem;
+            color: var(--dark);
+        }
+        
+        .achievement-stats {
+            display: flex;
+            gap: 2rem;
+            color: var(--gray);
+        }
+        
+        .time-selector {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .time-btn {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        .time-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* My Courses */
+        .courses-filter {
+            margin-bottom: 2rem;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tab {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .filter-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .my-courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .my-course-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease;
+        }
+        
+        .my-course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .course-category {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .course-progress {
+            margin-bottom: 1rem;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .course-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .course-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .course-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Progress Stats */
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-metric {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .progress-metric h4 {
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-chart-large {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .progress-chart-large canvas {
+            height: 300px !important;
+        }
+        
+        /* Skill Breakdown */
+        .skill-breakdown {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .skill-card {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        
+        .skill-level {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        /* Achievements */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .achievement-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: var(--shadow-sm);
+            opacity: 0.6;
+        }
+        
+        .achievement-card.earned {
+            opacity: 1;
+        }
+        
+        .achievement-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .achievement-info h4 {
+            margin-bottom: 0.3rem;
+        }
+        
+        .achievement-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .achievement-date {
+            font-size: 0.8rem;
+            color: #4CAF50;
+        }
+        
+        .achievement-status {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        /* Certificates */
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .certificate-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .certificate-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .certificate-header i {
+            color: #FFC107;
+            font-size: 1.5rem;
+        }
+        
+        .certificate-info p {
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+        }
+        
+        .certificate-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        /* Bookmarks */
+        .bookmarks-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .bookmark-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .bookmark-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+        
+        .bookmark-info {
+            flex: 1;
+        }
+        
+        .bookmark-info h4 {
+            margin-bottom: 0.3rem;
+        }
+        
+        .bookmark-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .bookmark-action {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+        }
+        
+        /* Notes */
+        .notes-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .note-editor {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .note-editor textarea {
+            width: 100%;
+            height: 150px;
+            padding: 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            resize: none;
+            font-family: inherit;
+            margin-bottom: 1rem;
+        }
+        
+        .editor-toolbar {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .notes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .note-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .note-header span {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .note-content {
+            color: var(--dark);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .note-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .note-actions button {
+            padding: 0.5rem 1rem;
+            background: var(--light);
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        /* Settings */
+        .settings-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .settings-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .settings-section h3 {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 0.8rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .settings-checkboxes {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+        }
+        
+        .settings-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-sidebar {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-content {
+                padding: 1rem;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .my-courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .achievements-grid,
+            .certificates-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .progress-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .continue-course {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .course-actions {
+                width: 100%;
+            }
+            
+            .filter-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html>

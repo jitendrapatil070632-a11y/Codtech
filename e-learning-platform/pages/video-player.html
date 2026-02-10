@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player | LearnHub</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                LearnHub
+            </a>
+            <button class="btn-primary" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i> Back to Course
+            </button>
+        </div>
+    </nav>
+
+    <div class="video-player-page">
+        <div class="container">
+            <div class="player-container">
+                <!-- Main Video Player -->
+                <div class="main-player">
+                    <div class="player-header">
+                        <h1 id="lessonTitle">JavaScript Fundamentals - Lesson 1</h1>
+                        <p id="courseTitle">Advanced JavaScript Masterclass</p>
+                    </div>
+                    
+                    <div class="video-container">
+                        <video id="mainVideo" controls autoplay>
+                            <source src="../assets/videos/lesson1.mp4" type="video/mp4">
+                            <track src="../assets/videos/subtitles.vtt" kind="subtitles" srclang="en" label="English">
+                            Your browser does not support HTML5 video.
+                        </video>
+                    </div>
+                    
+                    <div class="player-controls">
+                        <div class="control-group">
+                            <button class="control-btn" onclick="togglePlayPause('mainVideo')">
+                                <i class="fas fa-play" id="mainPlayIcon"></i>
+                            </button>
+                            <div class="time-display">
+                                <span id="currentTime">0:00</span> / 
+                                <span id="totalTime">12:30</span>
+                            </div>
+                            <button class="control-btn" onclick="toggleMute('mainVideo')">
+                                <i class="fas fa-volume-up" id="mainVolumeIcon"></i>
+                            </button>
+                            <input type="range" min="0" max="100" value="100" 
+                                   class="volume-slider" id="volumeSlider"
+                                   oninput="changeVolume('mainVideo', this.value)">
+                        </div>
+                        
+                        <div class="control-group">
+                            <button class="control-btn" onclick="skipBackward('mainVideo')">
+                                <i class="fas fa-backward"></i> 10s
+                            </button>
+                            <input type="range" min="0" max="100" value="0" 
+                                   class="progress-slider" id="progressSlider"
+                                   oninput="seekTo('mainVideo', this.value)">
+                            <button class="control-btn" onclick="skipForward('mainVideo')">
+                                10s <i class="fas fa-forward"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="control-group">
+                            <button class="control-btn" onclick="toggleFullscreen('mainVideo')">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="control-btn" onclick="changePlaybackRate('mainVideo', 0.5)">
+                                0.5x
+                            </button>
+                            <button class="control-btn" onclick="changePlaybackRate('mainVideo', 1)">
+                                1x
+                            </button>
+                            <button class="control-btn" onclick="changePlaybackRate('mainVideo', 1.5)">
+                                1.5x
+                            </button>
+                            <button class="control-btn" onclick="changePlaybackRate('mainVideo', 2)">
+                                2x
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="lesson-actions">
+                        <button class="btn-primary" onclick="markComplete()">
+                            <i class="fas fa-check-circle"></i> Mark Complete
+                        </button>
+                        <button class="btn-secondary" onclick="downloadResources()">
+                            <i class="fas fa-download"></i> Download Resources
+                        </button>
+                        <button class="btn-secondary" onclick="toggleNotes()">
+                            <i class="fas fa-sticky-note"></i> Notes
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="player-sidebar">
+                    <div class="sidebar-section">
+                        <h3><i class="fas fa-list"></i> Course Content</h3>
+                        <div class="lessons-list">
+                            <div class="lesson-item active" onclick="loadLesson(1)">
+                                <div class="lesson-number">1</div>
+                                <div class="lesson-info">
+                                    <h4>Introduction to JavaScript</h4>
+                                    <p>12:30 • <span class="completed"><i class="fas fa-check"></i> Completed</span></p>
+                                </div>
+                                <button class="play-lesson" onclick="loadLesson(1)">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="lesson-item" onclick="loadLesson(2)">
+                                <div class="lesson-number">2</div>
+                                <div class="lesson-info">
+                                    <h4>Variables and Data Types</h4>
+                                    <p>18:15 • <span class="in-progress">In Progress</span></p>
+                                </div>
+                                <button class="play-lesson" onclick="loadLesson(2)">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="lesson-item" onclick="loadLesson(3)">
+                                <div class="lesson-number">3</div>
+                                <div class="lesson-info">
+                                    <h4>Functions and Scope</h4>
+                                    <p>22:45 • Not Started</p>
+                                </div>
+                                <button class="play-lesson" onclick="loadLesson(3)">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-section">
+                        <h3><i class="fas fa-download"></i> Resources</h3>
+                        <div class="resources-list">
+                            <div class="resource-item">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>JavaScript Cheat Sheet</span>
+                                <button onclick="downloadResource('cheatsheet.pdf')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                            <div class="resource-item">
+                                <i class="fas fa-file-code"></i>
+                                <span>Source Code Files</span>
+                                <button onclick="downloadResource('source.zip')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                            <div class="resource-item">
+                                <i class="fas fa-book"></i>
+                                <span>Course Notes</span>
+                                <button onclick="downloadResource('notes.pdf')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notes Panel -->
+            <div class="notes-panel" id="notesPanel">
+                <div class="notes-header">
+                    <h3><i class="fas fa-sticky-note"></i> My Notes</h3>
+                    <button class="close-notes" onclick="toggleNotes()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="notes-content">
+                    <textarea placeholder="Take notes here... (Auto-saves every 5 seconds)" 
+                              id="notesTextarea"></textarea>
+                    <div class="saved-notes" id="savedNotes">
+                        <!-- Notes will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script>
+        // Video Player Logic
+        let currentLesson = 1;
+        const lessons = [
+            {
+                id: 1,
+                title: "Introduction to JavaScript",
+                course: "Advanced JavaScript Masterclass",
+                video: "../assets/videos/lesson1.mp4",
+                duration: "12:30",
+                completed: true
+            },
+            {
+                id: 2,
+                title: "Variables and Data Types",
+                course: "Advanced JavaScript Masterclass",
+                video: "../assets/videos/lesson2.mp4",
+                duration: "18:15",
+                completed: false
+            },
+            {
+                id: 3,
+                title: "Functions and Scope",
+                course: "Advanced JavaScript Masterclass",
+                video: "../assets/videos/lesson3.mp4",
+                duration: "22:45",
+                completed: false
+            }
+        ];
+        
+        // Initialize player
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get course from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('course') || 1;
+            
+            // Load first lesson
+            loadLesson(1);
+            
+            // Initialize video controls
+            initializeVideoPlayer();
+        });
+        
+        function initializeVideoPlayer() {
+            const video = document.getElementById('mainVideo');
+            if (!video) return;
+            
+            // Update time display
+            video.addEventListener('timeupdate', function() {
+                document.getElementById('currentTime').textContent = formatTime(video.currentTime);
+                document.getElementById('totalTime').textContent = formatTime(video.duration);
+                
+                // Update progress slider
+                if (video.duration) {
+                    const progress = (video.currentTime / video.duration) * 100;
+                    document.getElementById('progressSlider').value = progress;
+                }
+            });
+            
+            // Update volume slider
+            video.addEventListener('volumechange', function() {
+                document.getElementById('volumeSlider').value = video.volume * 100;
+                const icon = document.getElementById('mainVolumeIcon');
+                if (video.muted || video.volume === 0) {
+                    icon.className = 'fas fa-volume-mute';
+                } else if (video.volume < 0.5) {
+                    icon.className = 'fas fa-volume-down';
+                } else {
+                    icon.className = 'fas fa-volume-up';
+                }
+            });
+            
+            // Play/Pause icon update
+            video.addEventListener('play', function() {
+                document.getElementById('mainPlayIcon').className = 'fas fa-pause';
+            });
+            
+            video.addEventListener('pause', function() {
+                document.getElementById('mainPlayIcon').className = 'fas fa-play';
+            });
+            
+            // Set initial volume
+            video.volume = 1;
+        }
+        
+        function loadLesson(lessonId) {
+            const lesson = lessons.find(l => l.id === lessonId);
+            if (!lesson) return;
+            
+            currentLesson = lessonId;
+            
+            // Update UI
+            document.getElementById('lessonTitle').textContent = lesson.title;
+            document.getElementById('courseTitle').textContent = lesson.course;
+            
+            // Update video source
+            const video = document.getElementById('mainVideo');
+            video.src = lesson.video;
+            video.load();
+            video.play();
+            
+            // Update lesson list
+            document.querySelectorAll('.lesson-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`.lesson-item:nth-child(${lessonId})`).classList.add('active');
+        }
+        
+        function changePlaybackRate(videoId, rate) {
+            const video = document.getElementById(videoId);
+            if (video) {
+                video.playbackRate = rate;
+            }
+        }
+        
+        function skipBackward(videoId) {
+            const video = document.getElementById(videoId);
+            if (video) {
+                video.currentTime = Math.max(0, video.currentTime - 10);
+            }
+        }
+        
+        function skipForward(videoId) {
+            const video = document.getElementById(videoId);
+            if (video) {
+                video.currentTime = Math.min(video.duration, video.currentTime + 10);
+            }
+        }
+        
+        function seekTo(videoId, percentage) {
+            const video = document.getElementById(videoId);
+            if (video && video.duration) {
+                video.currentTime = (percentage / 100) * video.duration;
+            }
+        }
+        
+        function changeVolume(videoId, volume) {
+            const video = document.getElementById(videoId);
+            if (video) {
+                video.volume = volume / 100;
+                video.muted = volume === 0;
+            }
+        }
+        
+        function markComplete() {
+            const lessonItem = document.querySelector(`.lesson-item:nth-child(${currentLesson})`);
+            const progressText = lessonItem.querySelector('.in-progress, .completed, p span');
+            
+            if (progressText) {
+                progressText.innerHTML = '<i class="fas fa-check"></i> Completed';
+                progressText.className = 'completed';
+            }
+            
+            alert('Lesson marked as complete!');
+        }
+        
+        function toggleNotes() {
+            const panel = document.getElementById('notesPanel');
+            panel.classList.toggle('active');
+        }
+        
+        function downloadResources() {
+            alert('Downloading all resources...');
+        }
+        
+        function downloadResource(filename) {
+            alert(`Downloading ${filename}...`);
+        }
+        
+        // Export functions
+        window.loadLesson = loadLesson;
+        window.changePlaybackRate = changePlaybackRate;
+        window.skipBackward = skipBackward;
+        window.skipForward = skipForward;
+        window.seekTo = seekTo;
+        window.changeVolume = changeVolume;
+        window.markComplete = markComplete;
+        window.toggleNotes = toggleNotes;
+        window.downloadResources = downloadResources;
+        window.downloadResource = downloadResource;
+    </script>
+
+    <style>
+        .video-player-page {
+            padding: 100px 0 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .player-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .main-player {
+            padding: 2rem;
+        }
+        
+        .player-header {
+            margin-bottom: 2rem;
+        }
+        
+        .player-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .player-header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .video-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            background: #000;
+        }
+        
+        .video-container video {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            display: block;
+        }
+        
+        .player-controls {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .time-display {
+            font-family: monospace;
+            font-size: 1rem;
+            color: var(--dark);
+            min-width: 100px;
+        }
+        
+        .volume-slider,
+        .progress-slider {
+            flex: 1;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb,
+        .progress-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .lesson-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .player-sidebar {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-left: 1px solid #e9ecef;
+            overflow-y: auto;
+            max-height: 800px;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+        
+        .sidebar-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            font-size: 1.2rem;
+        }
+        
+        .lessons-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .lesson-item:hover {
+            transform: translateX(5px);
+            border-color: var(--primary);
+        }
+        
+        .lesson-item.active {
+            background: rgba(67, 97, 238, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .lesson-number {
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .lesson-info {
+            flex: 1;
+        }
+        
+        .lesson-info h4 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .lesson-info p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .completed {
+            color: #28a745;
+        }
+        
+        .in-progress {
+            color: #ffc107;
+        }
+        
+        .play-lesson {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .resources-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .resource-item i {
+            color: var(--primary);
+            width: 20px;
+        }
+        
+        .resource-item span {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+        
+        .resource-item button {
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+        }
+        
+        .notes-panel {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            width: 400px;
+            height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        
+        .notes-panel.active {
+            display: flex;
+        }
+        
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .close-notes {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--gray);
+            cursor: pointer;
+        }
+        
+        .notes-content {
+            flex: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        #notesTextarea {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            resize: none;
+            font-family: inherit;
+        }
+        
+        .saved-notes {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        @media (max-width: 1200px) {
+            .player-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .player-sidebar {
+                border-left: none;
+                border-top: 1px solid #e9ecef;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .video-player-page {
+                padding: 80px 1rem 1rem;
+            }
+            
+            .player-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .video-container video {
+                height: 250px;
+            }
+            
+            .lesson-actions {
+                flex-wrap: wrap;
+            }
+            
+            .notes-panel {
+                width: calc(100% - 2rem);
+                height: 400px;
+            }
+        }
+    </style>
+</body>
+</html>
